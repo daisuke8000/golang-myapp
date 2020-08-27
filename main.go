@@ -3,40 +3,13 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
+	"myapp/db"
 	"os"
+	"strconv"
 )
 
-type Task struct {
-	gorm.Model
-	Title  string
-	Detail string
-	Name   string
-	Day    int
-}
-
-type Owner struct {
-	DbName  string
-	DbTable string
-	DbUser  string
-	DbPass  string
-}
-
-
-var ow Owner
-
-func dbInit() {
-	oneline := ow.DbUser+":"+ow.DbPass+"@/"+ow.DbTable+"?charset=utf8&parseTime=True&loc=Local"
-	db, err := gorm.Open(ow.DbName, oneline)
-	if err != nil {
-		panic(err.Error())
-	}
-	defer db.Close()
-	db.AutoMigrate(&Task{})
-}
-
-func init()  {
+func init() {
 	//.env読み込み
 	err := godotenv.Load()
 	if err != nil {
@@ -47,19 +20,35 @@ func init()  {
 	dbnm := os.Getenv("GO_DB_NAME")
 	user := os.Getenv("GO_DB_USER")
 	pass := os.Getenv("GO_DB_PASS")
-	ow = Owner{rdbm, dbnm, user, pass}
+	db.Ow = db.Owner{rdbm, dbnm, user, pass}
 }
-
 
 func main() {
 	//インスタンス初期化
 	r := gin.Default()
 	//templates
 	r.LoadHTMLGlob("templates/*.html")
-	//db-migaration
-	dbInit()
+	//外部参照は大文字から
+	db.DbInit()
+	//index
 	r.GET("/", func(c *gin.Context) {
-		c.HTML(200, "index.html", gin.H{"TableName": ow.DbTable,"UserName": ow.DbUser})
+		tasks := db.GetAll()
+		c.HTML(200, "index.html", gin.H{
+			"tasks": tasks,
+		})
+	})
+	//create
+	r.POST("/new", func(c *gin.Context) {
+		title := c.PostForm("title")
+		detail := c.PostForm("detail")
+		name := c.PostForm("name")
+		d := c.PostForm("day")
+		day, err := strconv.Atoi(d)
+		if err != nil{
+			panic(err)
+		}
+		db.Insert(title, detail, name, day)
+		c.Redirect(302, "/")
 	})
 
 	r.Run(":8080")
