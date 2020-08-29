@@ -39,6 +39,9 @@
         <div class="wrap">
             <form method="post" action="/update/{{.task.ID}}">
                 <div style="width: auto; margin: auto">
+                    <a href="/detail/{{.task.ID}}">
+                        戻る
+                    </a>
                     <field>
                         <label class="label">Title</label>
                         <input class="input" type="text" name="title" size="10" value="{{.task.Title}}">
