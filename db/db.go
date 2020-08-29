@@ -44,6 +44,17 @@ func GetAll() []Task {
 	return tasks
 }
 
+func GetOne(id int) Task {
+	db,err := gorm.Open(Ow.DbName, oneline)
+	if err != nil{
+		panic(err.Error())
+	}
+	var task Task
+	db.First(&task, id)
+	db.Close()
+	return task
+}
+
 func Insert(title string, detail string, name string, day int) {
 	db, err := gorm.Open(Ow.DbName, oneline)
 	if err != nil{

@@ -30,6 +30,7 @@ func main() {
 	r.LoadHTMLGlob("src/templates/*.html")
 	//外部参照は大文字から
 	db.DbInit()
+
 	//index
 	r.GET("/", func(c *gin.Context) {
 		tasks := db.GetAll()
@@ -37,6 +38,7 @@ func main() {
 			"tasks": tasks,
 		})
 	})
+
 	//create
 	r.POST("/new", func(c *gin.Context) {
 		title := c.PostForm("title")
@@ -44,11 +46,24 @@ func main() {
 		name := c.PostForm("name")
 		d := c.PostForm("day")
 		day, err := strconv.Atoi(d)
-		if err != nil{
+		if err != nil {
 			panic(err)
 		}
 		db.Insert(title, detail, name, day)
 		c.Redirect(302, "/")
+	})
+
+	//detail
+	r.GET("/detail/:id", func(c *gin.Context) {
+		n := c.Param("id")
+		id, err := strconv.Atoi(n)
+		if err != nil {
+			panic(err)
+		}
+		task := db.GetOne(id)
+		c.HTML(200, "detail.html", gin.H{
+			"task": task,
+		})
 	})
 
 	r.Run(":8080")

@@ -31,7 +31,7 @@
                     </field>
                     <field>
                         <label class="label">Detail</label>
-                        <textarea class="textarea" placeholder="詳細"></textarea>
+                        <textarea class="textarea input" name="detail" placeholder="5 lines of textarea" rows="5"></textarea>
                     </field>
                     <field>
                         <label class="label">Name</label>
@@ -56,9 +56,11 @@
                     {{range.tasks}}
                         <li>
                             <h3 class="label">
+                                <a href="/detail/{{.ID}}">
                                 Title:{{.Title}}
+                                </a>
                             </h3>
-                            <p>Detail:{{.Detail}}</p>
+                            <p>{{.Detail}}</p>
                             <p>Name:{{.Name}}</p>
                             <p>Volume:{{.Day}}</p>
                             <br>
