@@ -22,7 +22,6 @@
     </style>
 </head>
 <body>
-{{/*breakpointは"is-fluid"*/}}
 <header class="hero is-primary is-bold" id="fixed">
     <div class="hero-body">
         <div class="container is-fluid">
@@ -38,22 +37,25 @@
 <section class="section">
     <div class="container is-fluid">
         <div class="wrap">
-            <div style="width: auto; margin: auto">
-                <ul>
-                    <div class="title">
-                        {{.task.Title}}</div>
-                    <label class="button is-info is-light"><a href="/edit/{{.task.ID}}">編集</a></label>
-                    <label class="button is-warning is-light"><a href="/delete_confirm/{{.task.ID}}">削除</a></label>
-
-                    <p>{{.task.Detail}}</p>
-                </ul>
-            </div>
+            <form method="post" action="/delete/{{.task.ID}}">
+                <div style="width: auto; margin: auto">
+                    <ul>
+                        <div class="title">
+                            {{.task.Title}}</div>
+                        <p>Detail:{{.task.Detail}}</p>
+                        <p>Name:{{.task.Name}}</p>
+                        <p>Volume:{{.task.Day}}</p>
+                    </ul>
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <button class="button is-danger" type="submit">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </section>
-</div>
-</div>
-</section>
 </body>
 </html>
-<body>
+

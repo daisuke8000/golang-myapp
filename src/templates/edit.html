@@ -6,22 +6,22 @@
     <title>TodoList</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
     <style>
-    /* 固定 */
-    #fixed {
-    position: fixed;
-    top: 0;
-    padding: 0;
-    width: 100%;
-    z-index: 100;
-    }
-    body{
-        margin-top: 10%;
-        padding-top: 80px;
-    }
+        /* 固定 */
+        #fixed {
+            position: fixed;
+            top: 0;
+            padding: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        body {
+            margin-top: 10%;
+            padding-top: 80px;
+        }
     </style>
 </head>
 <body>
-{{/*breakpointは"is-fluid"*/}}
 <header class="hero is-primary is-bold" id="fixed">
     <div class="hero-body">
         <div class="container is-fluid">
@@ -37,25 +37,25 @@
 <section class="section">
     <div class="container is-fluid">
         <div class="wrap">
-            <form action="/new" method="post">
+            <form method="post" action="/update/{{.task.ID}}">
                 <div style="width: auto; margin: auto">
                     <field>
                         <label class="label">Title</label>
-                        <input class="input" type="text" name="title" size="10" placeholder="タスク名">
+                        <input class="input" type="text" name="title" size="10" value="{{.task.Title}}">
                     </field>
                     <field>
                         <label class="label">Detail</label>
-                        <textarea class="textarea input" name="detail" placeholder="5 lines of textarea"
-                                  rows="5"></textarea>
+                        <textarea class="textarea input" name="detail"
+                                  rows="5">{{.task.Detail}}</textarea>
                     </field>
                     <field>
                         <label class="label">Name</label>
-                        <input class="input" type="text" name="name" size="10" placeholder="発行者名"/>
+                        <input class="input" type="text" name="name" size="10" value="{{.task.Name}}"/>
                     </field>
                     <div class="field">
                         <label class="label">Volume</label>
                         <div class="control">
-                            <input class="input" type="text" name="day" size="10" placeholder="予定日数"/>
+                            <input class="input" type="text" name="day" size="10" value="{{.task.Day}}"/>
                         </div>
                     </div>
                     <div class="field is-grouped">
@@ -65,27 +65,9 @@
                     </div>
                 </div>
             </form>
-            <section class="section">
-                <div class="indexGet is-fluid" style="width: auto; margin: auto">
-                    <ul>
-                        {{range.tasks}}
-                            <li>
-                                <h3 class="label">
-                                    <a href="/detail/{{.ID}}">
-                                        Title:{{.Title}}
-                                    </a>
-                                </h3>
-                                <p>{{.Detail}}</p>
-                                <p>Name:{{.Name}}</p>
-                                <p>Volume:{{.Day}}</p>
-                                <br>
-                            </li>
-                        {{end}}
-                    </ul>
-                </div>
-            </section>
         </div>
     </div>
 </section>
 </body>
 </html>
+

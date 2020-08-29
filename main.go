@@ -66,5 +66,61 @@ func main() {
 		})
 	})
 
+	//edit
+	r.GET("/edit/:id", func(c *gin.Context) {
+		n := c.Param("id")
+		id, err := strconv.Atoi(n)
+		if err != nil {
+			panic(err)
+		}
+		task := db.GetOne(id)
+		c.HTML(200, "edit.html", gin.H{
+			"task": task,
+		})
+	})
+
+	//update
+	r.POST("/update/:id", func(c *gin.Context) {
+		n := c.Param("id")
+		id, err := strconv.Atoi(n)
+		if err != nil {
+			panic(err)
+		}
+		title := c.PostForm("title")
+		detail := c.PostForm("detail")
+		name := c.PostForm("name")
+		d := c.PostForm("day")
+		day, derr := strconv.Atoi(d)
+		if derr != nil {
+			panic(derr)
+		}
+		db.UpDate(id, title, detail, name, day)
+		c.Redirect(302, "/")
+	})
+
+	//delete_confirm
+	r.GET("/delete_confirm/:id", func(c *gin.Context) {
+		n := c.Param("id")
+		id, err := strconv.Atoi(n)
+		if err != nil {
+			panic(err)
+		}
+		task := db.GetOne(id)
+		c.HTML(200, "delete_confirm.html", gin.H{
+			"task": task,
+		})
+	})
+
+	//delete
+	r.POST("/delete/:id", func(c *gin.Context) {
+		n := c.Param("id")
+		id, err := strconv.Atoi(n)
+		if err != nil {
+			panic(err)
+		}
+		db.Delete(id)
+		c.Redirect(302, "/")
+	})
+
 	r.Run(":8080")
 }

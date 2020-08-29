@@ -35,7 +35,7 @@ func DbInit() {
 
 func GetAll() []Task {
 	db, err := gorm.Open(Ow.DbName, oneline)
-	if err != nil{
+	if err != nil {
 		panic(err.Error())
 	}
 	var tasks []Task
@@ -45,8 +45,8 @@ func GetAll() []Task {
 }
 
 func GetOne(id int) Task {
-	db,err := gorm.Open(Ow.DbName, oneline)
-	if err != nil{
+	db, err := gorm.Open(Ow.DbName, oneline)
+	if err != nil {
 		panic(err.Error())
 	}
 	var task Task
@@ -57,9 +57,35 @@ func GetOne(id int) Task {
 
 func Insert(title string, detail string, name string, day int) {
 	db, err := gorm.Open(Ow.DbName, oneline)
-	if err != nil{
+	if err != nil {
 		panic(err.Error())
 	}
 	db.Create(&Task{Title: title, Detail: detail, Name: name, Day: day})
 	defer db.Close()
+}
+
+func UpDate(id int, title string, detail string, name string, day int) {
+	db, err := gorm.Open(Ow.DbName, oneline)
+	if err != nil{
+		panic(err.Error())
+	}
+	var task Task
+	db.First(&task,id)
+	task.Title = title
+	task.Detail = detail
+	task.Name = name
+	task.Day = day
+	db.Save(&task)
+	db.Close()
+}
+
+func Delete(id int){
+	db,err := gorm.Open(Ow.DbName, oneline)
+	if err != nil{
+		panic(err.Error())
+	}
+	var task Task
+	db.First(&task, id)
+	db.Delete(&task)
+	db.Close()
 }
