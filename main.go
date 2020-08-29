@@ -26,8 +26,8 @@ func init() {
 func main() {
 	//インスタンス初期化
 	r := gin.Default()
-	//templates
-	r.LoadHTMLGlob("templates/*.html")
+	//src/templates
+	r.LoadHTMLGlob("src/templates/*.html")
 	//外部参照は大文字から
 	db.DbInit()
 	//index
