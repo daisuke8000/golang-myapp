@@ -3,18 +3,28 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello Bulma!</title>
+    <title>TodoList</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
 </head>
 <body>
+{{/*breakpointは"is-fluid"*/}}
+<section class="hero is-medium is-primary is-bold">
+    <div class="hero-body">
+        <div class="container is-fluid">
+            <h1 class="title">
+                TodoList App
+            </h1>
+            <h2 class="subtitle">
+                Sample App ..
+            </h2>
+        </div>
+    </div>
+</section>
 <section class="section">
-    <div class="container">
+    <div class="container is-fluid">
         <div class="wrap">
             <form action="/new" method="post">
-                <div style="width: 800px; margin: auto">
-                    <h1 class="title">
-                        Todo App
-                    </h1>
+                <div style="width: auto; margin: auto">
                     <field>
                         <label class="label">Title</label>
                         <input class="input" type="text" name="title" size="10" placeholder="タスク名">
@@ -40,16 +50,23 @@
                     </div>
                 </div>
             </form>
-
-            <div class="indexGet" style="width: 800px; margin: auto">
+            <section class="section">
+            <div class="indexGet is-fluid" style="width: auto; margin: auto">
                 <ul>
                     {{range.tasks}}
                         <li>
-                            Title:{{.Title}}、Detail:{{.Detail}}、Name:{{.Name}}、Volume:{{.Day}}
+                            <h3 class="label">
+                                Title:{{.Title}}
+                            </h3>
+                            <p>Detail:{{.Detail}}</p>
+                            <p>Name:{{.Name}}</p>
+                            <p>Volume:{{.Day}}</p>
+                            <br>
                         </li>
                     {{end}}
                 </ul>
             </div>
+            </section>
         </div>
     </div>
 </section>
