@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	_ "github.com/go-sql-driver/mysql"
+	_ "gorm.io/driver/mysql"
 	"github.com/joho/godotenv"
 	"myapp/db"
 	"os"
